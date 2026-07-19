@@ -1,51 +1,37 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
-
 class Solution {
 public:
     ListNode* rotateRight(ListNode* head, int k) {
 
-        if(head == NULL || head->next == NULL || k == 0)
+        if (head == NULL || head->next == NULL || k == 0)
             return head;
 
         // Find length and tail
-        int len = 1;
+        int length = 1;
         ListNode* tail = head;
 
-        while(tail->next != NULL)
-        {
+        while (tail->next) {
             tail = tail->next;
-            len++;
+            length++;
         }
 
-        // Reduce rotations
-        k = k % len;
+        k = k % length;
 
-        if(k == 0)
+        if (k == 0)
             return head;
 
         // Make circular list
         tail->next = head;
 
         // Find new tail
-        int steps = len - k - 1;
         ListNode* newTail = head;
 
-        while(steps--)
-        {
+        for (int i = 1; i < length - k; i++)
             newTail = newTail->next;
-        }
+
+        // New head
+        ListNode* newHead = newTail->next;
 
         // Break the circle
-        ListNode* newHead = newTail->next;
         newTail->next = NULL;
 
         return newHead;
